@@ -41,6 +41,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   DateTime _date = new DateTime.now();
   TimeOfDay _time = new TimeOfDay.now();
 
+  String _answer = 'Tell us how you like Flutter';
+
   @override Widget build(BuildContext context) {
     return new Scaffold(
       key: _scaffoldState,
@@ -68,6 +70,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   _addDropDownButton(),
                   _addListView(),
                   _addDateAndTimePicker(),
+                  _addCustomDialog(),
                 ],
               ),
             ),
@@ -331,6 +334,51 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       setState(() => _time = pickedTime);
     } else _showSnackBar('Please select a different date');
   }
+  //endregion
+
+  //region Custom Dialog
+  Widget _addCustomDialog() {
+    return _get(new Column(
+      children: <Widget>[
+        new Text(_answer),
+        new RaisedButton(child: new Text('SHOW CUSTOM DIALOG'), onPressed: _askUser),
+      ],
+    ));
+  }
+
+  Future<Null> _askUser() async {
+    switch(await showDialog(
+      context: context,
+      child: new SimpleDialog(
+        title: new Text('Liking Flutter yet?'),
+        children: <Widget>[
+          _getSimpleDialogOption('Yes!', DialogActions.Yes),
+          _getSimpleDialogOption('No', DialogActions.No),
+          _getSimpleDialogOption('Maybe', DialogActions.Maybe),
+        ],
+      ),
+    )) {
+      case DialogActions.Yes:
+        _setAnswer('Yes');
+        break;
+      case DialogActions.No:
+        _setAnswer('No');
+        break;
+      case DialogActions.Maybe:
+        _setAnswer('Maybe');
+        break;
+      default:
+        _setAnswer(null);
+        break;
+    }
+  }
+
+  Widget _getSimpleDialogOption(String text, DialogActions yes) => new SimpleDialogOption(
+    child: _get(new Text(text)),
+    onPressed: () => Navigator.pop(context, DialogActions.Yes),
+  );
+
+  void _setAnswer(String value) => setState(() => _answer = value != null ? 'Your answer is $value' : 'Tell us how you like Flutter');
   //endregion
 
   Container _get(Widget child, [EdgeInsets padding = const EdgeInsets.all(16.0)]) => new Container(padding: padding, child: child,);
