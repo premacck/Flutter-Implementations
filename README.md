@@ -25,4 +25,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## Acknowledgments
 
-* Bryan Cairns'(https://github.com/voidrealms) YouTube tutorials (https://www.youtube.com/playlist?list=PLUbFnGajtZlX9ubiLzYz_cw92esraiIBi)
+* Bryan Cairns'([GitHub](https://github.com/voidrealms)) YouTube tutorials: [link](https://www.youtube.com/playlist?list=PLUbFnGajtZlX9ubiLzYz_cw92esraiIBi)
