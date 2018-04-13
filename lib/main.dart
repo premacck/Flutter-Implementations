@@ -1,22 +1,40 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:implementations/listview.dart';
+import 'package:implementations/navigation/BottomNavigationBarPage.dart';
+import 'package:implementations/navigation/TabBarPage.dart';
 
 void main() => runApp(new App());
+
+const String LIST_VIEW = '/ListView';
+const String TAB_BAR = '/TabBar';
+const String BOTTOM_NAVIGATION_BAR = '/BottomNavigationBar';
 
 class App extends StatelessWidget {
 
   @override Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Implementations',
-      theme: new ThemeData.light(),
+      color: Colors.deepOrange,
+      theme: new ThemeData(
+        primarySwatch: Colors.deepOrange,
+        accentColor: Colors.teal,
+        brightness: Brightness.light,
+      ),
       routes: <String, WidgetBuilder> {
-        '/ListView': (context) => new MyListView(),
+        LIST_VIEW: (context) => new MyListView(),
+        TAB_BAR: (context) => new TabBarPage(),
+        BOTTOM_NAVIGATION_BAR: (context) => new BottomNavigationBarPage(),
       },
       home: new MyApp(),
     );
   }
+
+  static Widget getWidget(Widget child, [EdgeInsets pad = const EdgeInsets.all(16.0)]) => new Container(padding: pad, child: child,);
+
+  static Icon getIcon(IconData iconData, Color color) => new Icon(iconData, size: 150.0, color: color,);
+
+  static Container _get(Widget child, [EdgeInsets pad = const EdgeInsets.all(16.0)]) => new Container(padding: pad, child: child,);
 }
 
 class MyApp extends StatefulWidget {
@@ -56,7 +74,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
             child: new Center(
               child: new Column(
                 children: <Widget>[
-                  _get(new TextField(onChanged: (value) => _onChanged(value), decoration: _getHint()), new EdgeInsets.all(0.0)),
+                  App._get(new TextField(onChanged: (value) => _onChanged(value), decoration: _getHint()), new EdgeInsets.all(0.0)),
                   _addSnackBar(),
                   _addAlertDialog(),
                   _addCustomizedTextField(),
@@ -71,6 +89,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   _addListView(),
                   _addDateAndTimePicker(),
                   _addCustomDialog(),
+                  _addTabBar(),
+                  _addBottomNavigationBar(),
                 ],
               ),
             ),
@@ -85,7 +105,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   _onChanged(String value) => setState(() => _text = value);
 
   //region SnackBar
-  Widget _addSnackBar() => _get(new RaisedButton(child: new Text('Show Snackbar!'), onPressed: () => _showSnackBar(_text)));
+  Widget _addSnackBar() => App._get(new RaisedButton(child: new Text('Show Snackbar!'), onPressed: () => _showSnackBar(_text)));
 
   _showSnackBar(String message) {
     if (message.isEmpty) message = _message;
@@ -94,7 +114,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //endregion
 
   //region Alert Dialog
-  Widget _addAlertDialog() => _get(new RaisedButton(child: new Text('Show AlertDialog!'), onPressed: () => _showAlert(_text)));
+  Widget _addAlertDialog() => App._get(new RaisedButton(child: new Text('Show AlertDialog!'), onPressed: () => _showAlert(_text)));
 
   _showAlert(String message) {
     if (message.isEmpty) message = _message;
@@ -120,7 +140,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   //region Text Field
   _addCustomizedTextField() {
-    return _get(new TextField(
+    return App._get(new TextField(
       controller: _controller,
       autocorrect: true,
       decoration: new InputDecoration(
@@ -139,8 +159,8 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   _addCheckbox() {
     return new Row(
       children: <Widget>[
-        _get(new Text('Click on the checkbox ->'), new EdgeInsets.only(left: 16.0)),
-        _get(new Checkbox(value: _isChecked, onChanged: (isChecked) => _checkChanged(isChecked))),
+        App._get(new Text('Click on the checkbox ->'), new EdgeInsets.only(left: 16.0)),
+        App._get(new Checkbox(value: _isChecked, onChanged: (isChecked) => _checkChanged(isChecked))),
       ],
     );
   }
@@ -163,7 +183,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //endregion
 
   //region Radios
-  Widget _addRadios() => _get(new Column(children: _makeRadios(3),));
+  Widget _addRadios() => App._get(new Column(children: _makeRadios(3),));
 
   List<Widget> _makeRadios(int numberOfRadios) {
     List<Widget> radios = new List<Widget> ();
@@ -185,7 +205,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //endregion
 
   //region RadiosListTile
-  Widget _addRadiosListTile() => _get(new Column(children: _makeRadiosListTile(3),));
+  Widget _addRadiosListTile() => App._get(new Column(children: _makeRadiosListTile(3),));
 
   List<Widget> _makeRadiosListTile(int numberOfRadios) {
     List<Widget> radios = new List<Widget> ();
@@ -210,7 +230,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //endregion
 
   //region Switch and SwitchListTile
-  Widget _addSwitch() => _get(_getSwitch());
+  Widget _addSwitch() => App._get(_getSwitch());
 
   Widget _getSwitch() {
     return new Row(
@@ -238,10 +258,10 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
 
   //region Slider and ProgressBar
   Widget _addSlider() {
-    return _get(new Column(
+    return App._get(new Column(
       children: <Widget>[
-        _get(new Text('Progress value is ${(_sliderValue * .01).toStringAsFixed(3)}'), const EdgeInsets.only(top: 16.0)),
-        _get(new LinearProgressIndicator(value: _sliderValue * .01), const EdgeInsets.all(10.0)),
+        App._get(new Text('Progress value is ${(_sliderValue * .01).toStringAsFixed(3)}'), const EdgeInsets.only(top: 16.0)),
+        App._get(new LinearProgressIndicator(value: _sliderValue * .01), const EdgeInsets.all(10.0)),
         new Text('Slider value is ${_sliderValue.toStringAsFixed(4)}'),
         new Slider(
           min: 0.0,
@@ -264,7 +284,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   Widget _addDropDownButton() {
-    return _get(new DropdownButton(
+    return App._get(new DropdownButton(
       value: _dropDownValue,
       items: _dropDownValues.map((value) {
         return new DropdownMenuItem(
@@ -285,22 +305,22 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   //endregion
 
   //region ListView
-  Widget _addListView() => _get(new RaisedButton(
+  Widget _addListView() => App._get(new RaisedButton(
     child: new Text('ListView Example'),
-    onPressed: () => Navigator.of(context).pushNamed('/ListView')
+    onPressed: () => Navigator.of(context).pushNamed(LIST_VIEW)
   ));
   //endregion
 
   //region Date and Time Picker
   Widget _addDateAndTimePicker() {
-    return _get(new Column(
+    return App._get(new Column(
       children: <Widget>[
-        _get(new Text('Date selected: ${_date.toString()}'), new EdgeInsets.only(top: 16.0, bottom: 10.0)),
+        App._get(new Text('Date selected: ${_date.toString()}'), new EdgeInsets.only(top: 16.0, bottom: 10.0)),
         new RaisedButton(
           child: new Text('Select Date'),
           onPressed: () => _selectDate(context),
         ),
-        _get(new Text('Time selected: ${_time.toString()}'), new EdgeInsets.only(top: 16.0, bottom: 10.0)),
+        App._get(new Text('Time selected: ${_time.toString()}'), new EdgeInsets.only(top: 16.0, bottom: 10.0)),
         new RaisedButton(
           child: new Text('Select Time'),
           onPressed: () => _selectTime(context),
@@ -320,7 +340,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if(pickedDate != null && pickedDate != _date) {
       print('Date selected: ${_date.toString()}');
       setState(() => _date = pickedDate);
-    } else _showSnackBar('Please select a different date');
+    } else _showSnackBar('Please select a date');
   }
 
   Future<Null> _selectTime(BuildContext context) async {
@@ -332,13 +352,13 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     if(pickedTime != null && pickedTime != _time) {
       print('Time selected: ${_time.toString()}');
       setState(() => _time = pickedTime);
-    } else _showSnackBar('Please select a different date');
+    } else _showSnackBar('Please select a date');
   }
   //endregion
 
   //region Custom Dialog
   Widget _addCustomDialog() {
-    return _get(new Column(
+    return App._get(new Column(
       children: <Widget>[
         new Text(_answer),
         new RaisedButton(child: new Text('SHOW CUSTOM DIALOG'), onPressed: _askUser),
@@ -374,14 +394,24 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   }
 
   Widget _getSimpleDialogOption(String text, DialogActions yes) => new SimpleDialogOption(
-    child: _get(new Text(text)),
+    child: App._get(new Text(text)),
     onPressed: () => Navigator.pop(context, DialogActions.Yes),
   );
 
   void _setAnswer(String value) => setState(() => _answer = value != null ? 'Your answer is $value' : 'Tell us how you like Flutter');
   //endregion
 
-  Container _get(Widget child, [EdgeInsets padding = const EdgeInsets.all(16.0)]) => new Container(padding: padding, child: child,);
+  //region Navigation (TabBar and BottomNavigationBar)
+  Widget _addTabBar() => App._get(new RaisedButton(
+      child: new Text('TabBar Example'),
+      onPressed: () => Navigator.of(context).pushNamed(TAB_BAR),
+    ));
+
+  Widget _addBottomNavigationBar() => App._get(new RaisedButton(
+      child: new Text('BottomNavigationBar Example'),
+      onPressed: () => Navigator.of(context).pushNamed(BOTTOM_NAVIGATION_BAR),
+    ));
+  //endregion
 
   @override void initState() {
     _initDropDownValues();
