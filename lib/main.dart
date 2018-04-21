@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:implementations/listview.dart';
+import 'package:implementations/ApiCalls.dart';
+import 'package:implementations/ListView.dart';
 import 'package:implementations/navigation/BottomNavigationBarPage.dart';
 import 'package:implementations/navigation/TabBarPage.dart';
 
@@ -9,6 +10,7 @@ void main() => runApp(new App());
 const String LIST_VIEW = '/ListView';
 const String TAB_BAR = '/TabBar';
 const String BOTTOM_NAVIGATION_BAR = '/BottomNavigationBar';
+const String API_CALLS = '/ApiCalls';
 
 class App extends StatelessWidget {
 
@@ -25,6 +27,7 @@ class App extends StatelessWidget {
         LIST_VIEW: (context) => new MyListView(),
         TAB_BAR: (context) => new TabBarPage(),
         BOTTOM_NAVIGATION_BAR: (context) => new BottomNavigationBarPage(),
+        API_CALLS: (context) => new ApiCalls(),
       },
       home: new MyApp(),
     );
@@ -91,6 +94,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   _addCustomDialog(),
                   _addTabBar(),
                   _addBottomNavigationBar(),
+                  _addHttpRequestAndRestApis(),
                 ],
               ),
             ),
@@ -413,6 +417,13 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     ));
   //endregion
 
+  //region HTTP requests & REST APIs
+  Widget _addHttpRequestAndRestApis() => App._get(new RaisedButton(
+      child: new Text('HTTP requests & REST APIs'),
+      onPressed: () => Navigator.of(context).pushNamed(API_CALLS),
+    ));
+  //endregion
+
   @override void initState() {
     _initDropDownValues();
     print('**** initState() ****');
@@ -420,15 +431,13 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
     super.initState();
   }
 
-  @override
-  void dispose() {
+  @override void dispose() {
     print('**** dispose() ****');
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  @override void didChangeAppLifecycleState(AppLifecycleState state) {
     print(state.toString());
 
     switch(state) {
