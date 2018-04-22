@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:implementations/animations/Animations.dart';
 import 'package:implementations/ApiCalls.dart';
 import 'package:implementations/ListView.dart';
 import 'package:implementations/navigation/BottomNavigationBarPage.dart';
@@ -11,6 +12,7 @@ const String LIST_VIEW = '/ListView';
 const String TAB_BAR = '/TabBar';
 const String BOTTOM_NAVIGATION_BAR = '/BottomNavigationBar';
 const String API_CALLS = '/ApiCalls';
+const String ANIMATIONS = '/Animations';
 
 class App extends StatelessWidget {
 
@@ -28,6 +30,7 @@ class App extends StatelessWidget {
         TAB_BAR: (context) => new TabBarPage(),
         BOTTOM_NAVIGATION_BAR: (context) => new BottomNavigationBarPage(),
         API_CALLS: (context) => new ApiCalls(),
+        ANIMATIONS: (context) => new Animations(),
       },
       home: new MyApp(),
     );
@@ -95,6 +98,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   _addTabBar(),
                   _addBottomNavigationBar(),
                   _addHttpRequestAndRestApis(),
+                  _addAnimation(),
                 ],
               ),
             ),
@@ -422,6 +426,12 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
       child: new Text('HTTP requests & REST APIs'),
       onPressed: () => Navigator.of(context).pushNamed(API_CALLS),
     ));
+  //endregion
+
+  //region Animations
+  Widget _addAnimation() => App.getWidget(new RaisedButton(
+      child: new Text('Animations'),
+      onPressed: () => Navigator.of(context).pushNamed(ANIMATIONS),));
   //endregion
 
   @override void initState() {
