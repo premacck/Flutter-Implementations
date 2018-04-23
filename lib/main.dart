@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:implementations/FileStorage.dart';
 import 'package:implementations/animations/Animations.dart';
 import 'package:implementations/ApiCalls.dart';
 import 'package:implementations/ListView.dart';
@@ -13,6 +14,7 @@ const String TAB_BAR = '/TabBar';
 const String BOTTOM_NAVIGATION_BAR = '/BottomNavigationBar';
 const String API_CALLS = '/ApiCalls';
 const String ANIMATIONS = '/Animations';
+const String FILE_STORAGE_WITH_JSON = '/fileStorageWithJson';
 
 class App extends StatelessWidget {
 
@@ -31,6 +33,7 @@ class App extends StatelessWidget {
         BOTTOM_NAVIGATION_BAR: (context) => new BottomNavigationBarPage(),
         API_CALLS: (context) => new ApiCalls(),
         ANIMATIONS: (context) => new Animations(),
+        FILE_STORAGE_WITH_JSON: (context) => new FileStorage(),
       },
       home: new MyApp(),
     );
@@ -99,6 +102,7 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
                   _addBottomNavigationBar(),
                   _addHttpRequestAndRestApis(),
                   _addAnimation(),
+                  _addFileStorageWithJson(),
                 ],
               ),
             ),
@@ -432,6 +436,12 @@ class MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget _addAnimation() => App.getWidget(new RaisedButton(
       child: new Text('Animations'),
       onPressed: () => Navigator.of(context).pushNamed(ANIMATIONS),));
+  //endregion
+
+  //region File Storage With JSON
+  Widget _addFileStorageWithJson() => App.getWidget(new RaisedButton(
+    child: new Text('File Storage With JSON'),
+    onPressed: () => Navigator.of(context).pushNamed(FILE_STORAGE_WITH_JSON),));
   //endregion
 
   @override void initState() {
